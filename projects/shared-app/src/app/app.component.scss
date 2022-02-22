@@ -1,0 +1,8 @@
+::ng-deep .bkt-list {
+  li {
+    cursor: pointer;
+    &:hover {
+      color: red;
+    }
+  }
+}

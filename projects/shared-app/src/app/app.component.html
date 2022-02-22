@@ -1,0 +1,11 @@
+
+<bkt-header [headerProps]="headerProps" (onItemClicked)="onItemHeaderClick($event)"></bkt-header>
+<main>
+  <section>
+    <article>
+      <bkt-list [listProps]="listProps" [titleList]="'To do list'" (onItemClicked)="onItemListClick($event)" ></bkt-list>
+      <bkt-button [buttonProps]="buttonProps" (onItemClicked)="onItemButtonClick()"></bkt-button>
+    </article>
+  </section>
+</main>
+

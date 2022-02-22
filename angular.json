@@ -1,0 +1,140 @@
+{
+  "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
+  "cli": {
+    "analytics": false
+  },
+  "version": 1,
+  "newProjectRoot": "projects",
+  "projects": {
+    "bktShared": {
+      "projectType": "library",
+      "root": "projects/bkt-shared",
+      "sourceRoot": "projects/bkt-shared/src",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "options": {
+            "project": "projects/bkt-shared/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/bkt-shared/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "projects/bkt-shared/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/bkt-shared/src/test.ts",
+            "tsConfig": "projects/bkt-shared/tsconfig.spec.json",
+            "karmaConfig": "projects/bkt-shared/karma.conf.js"
+          }
+        }
+      }
+    },
+    "sharedAPP": {
+      "projectType": "application",
+      "schematics": {
+        "@schematics/angular:application": {
+          "strict": true
+        }
+      },
+      "root": "projects/shared-app",
+      "sourceRoot": "projects/shared-app/src",
+      "prefix": "app",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "options": {
+            "outputPath": "dist/shared-app",
+            "index": "projects/shared-app/src/index.html",
+            "main": "projects/shared-app/src/main.ts",
+            "polyfills": "projects/shared-app/src/polyfills.ts",
+            "tsConfig": "projects/shared-app/tsconfig.app.json",
+            "assets": [
+              "projects/shared-app/src/favicon.ico",
+              "projects/shared-app/src/assets"
+            ],
+            "styles": [
+              "projects/shared-app/src/styles.css"
+            ],
+            "scripts": []
+          },
+          "configurations": {
+            "production": {
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "500kb",
+                  "maximumError": "1mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "2kb",
+                  "maximumError": "4kb"
+                }
+              ],
+              "fileReplacements": [
+                {
+                  "replace": "projects/shared-app/src/environments/environment.ts",
+                  "with": "projects/shared-app/src/environments/environment.prod.ts"
+                }
+              ],
+              "outputHashing": "all"
+            },
+            "development": {
+              "buildOptimizer": false,
+              "optimization": false,
+              "vendorChunk": true,
+              "extractLicenses": false,
+              "sourceMap": true,
+              "namedChunks": true
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "configurations": {
+            "production": {
+              "browserTarget": "sharedAPP:build:production"
+            },
+            "development": {
+              "browserTarget": "sharedAPP:build:development"
+            }
+          },
+          "defaultConfiguration": "development"
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "sharedAPP:build"
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/shared-app/src/test.ts",
+            "polyfills": "projects/shared-app/src/polyfills.ts",
+            "tsConfig": "projects/shared-app/tsconfig.spec.json",
+            "karmaConfig": "projects/shared-app/karma.conf.js",
+            "assets": [
+              "projects/shared-app/src/favicon.ico",
+              "projects/shared-app/src/assets"
+            ],
+            "styles": [
+              "projects/shared-app/src/styles.css"
+            ],
+            "scripts": []
+          }
+        }
+      }
+    }
+  },
+  "defaultProject": "bktShared"
+}
